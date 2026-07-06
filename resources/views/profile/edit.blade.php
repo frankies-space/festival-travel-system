@@ -10,6 +10,21 @@
             @if (session('status') === 'booking-confirmed')
                 <div class="p-4 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
                     {{ __('Je boeking is bevestigd! Je hebt :points punten verdiend.', ['points' => config('fts.points_per_booking')]) }}
+                    @if (session('discount_applied', 0) > 0)
+                        {{ __('Korting van € :amount toegepast.', ['amount' => number_format(session('discount_applied'), 2, ',', '.')]) }}
+                    @endif
+                </div>
+            @endif
+
+            @if (session('status') === 'discount-redeemed')
+                <div class="p-4 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
+                    {{ __('Korting van € :amount is toegevoegd aan je account!', ['amount' => number_format(session('discount_amount'), 2, ',', '.')]) }}
+                </div>
+            @endif
+
+            @if (session('status') === 'vip-redeemed')
+                <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-700">
+                    {{ __('VIP-toegang geactiveerd voor :days dagen!', ['days' => config('fts.vip_redeem_days')]) }}
                 </div>
             @endif
 
@@ -30,6 +45,12 @@
                             </span>
                         @endif
                     </div>
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @include('profile.partials.redeem-points-form')
                 </div>
             </div>
 

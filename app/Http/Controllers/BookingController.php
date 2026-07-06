@@ -15,13 +15,17 @@ class BookingController extends Controller
     public function store(StoreBookingRequest $request, Festival $festival, PointsService $pointsService): RedirectResponse
     {
         $user = $request->user();
+        $discountApplied = 0;
 
-        DB::transaction(function () use ($user, $festival, $pointsService) {
+        DB::transaction(function () use ($user, $festival, $pointsService, &$discountApplied) {
+            $pricing = $pointsService->applyDiscountToBooking($user, (float) $festival->ticket_price);
+            $discountApplied = $pricing['discount_used'];
+
             $booking = Booking::create([
                 'user_id' => $user->id,
                 'festival_id' => $festival->id,
                 'status' => 'confirmed',
-                'price' => $festival->ticket_price,
+                'price' => $pricing['final_price'],
                 'booked_at' => now(),
             ]);
 
@@ -37,6 +41,7 @@ class BookingController extends Controller
 
         return redirect()
             ->route('profile.edit')
-            ->with('status', 'booking-confirmed');
+            ->with('status', 'booking-confirmed')
+            ->with('discount_applied', $discountApplied);
     }
 }

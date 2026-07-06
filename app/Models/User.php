@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'phone', 'password', 'points_balance'])]
+#[Fillable(['name', 'email', 'phone', 'password', 'points_balance', 'available_discount', 'vip_until'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -23,6 +23,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'points_balance' => 'integer',
+            'available_discount' => 'decimal:2',
+            'vip_until' => 'datetime',
         ];
     }
 
@@ -43,6 +45,28 @@ class User extends Authenticatable
 
     public function isVip(): bool
     {
-        return $this->points_balance >= config('fts.vip_threshold');
+        if ($this->points_balance >= config('fts.vip_threshold')) {
+            return true;
+        }
+
+        return $this->vip_until !== null && $this->vip_until->isFuture();
+    }
+
+    public function hasActiveVipAccess(): bool
+    {
+        return $this->isVip();
+    }
+
+    public function canRedeemVip(): bool
+    {
+        if ($this->vip_until?->isFuture()) {
+            return false;
+        }
+
+        if ($this->points_balance >= config('fts.vip_threshold')) {
+            return false;
+        }
+
+        return $this->points_balance >= config('fts.vip_redeem_cost');
     }
 }

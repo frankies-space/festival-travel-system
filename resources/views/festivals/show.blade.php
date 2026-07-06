@@ -55,6 +55,11 @@
                             @csrf
                             <p class="text-sm text-gray-600 mb-4">
                                 {{ __('Na boeking ontvang je :points punten.', ['points' => config('fts.points_per_booking')]) }}
+                                @if (auth()->user()->available_discount > 0)
+                                    <span class="block mt-1 text-green-600">
+                                        {{ __('Je hebt € :amount korting beschikbaar!', ['amount' => number_format(auth()->user()->available_discount, 2, ',', '.')]) }}
+                                    </span>
+                                @endif
                             </p>
                             <x-primary-button>
                                 {{ __('Boek busreis') }}

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FestivalController;
+use App\Http\Controllers\PointsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/festivals', [FestivalController::class, 'index'])->name('festivals.index');
     Route::get('/festivals/{festival}', [FestivalController::class, 'show'])->name('festivals.show');
     Route::post('/festivals/{festival}/book', [BookingController::class, 'store'])->name('festivals.book');
+
+    Route::post('/points/redeem-discount', [PointsController::class, 'redeemDiscount'])->name('points.redeem-discount');
+    Route::post('/points/redeem-vip', [PointsController::class, 'redeemVip'])->name('points.redeem-vip');
 });
 
 require __DIR__.'/auth.php';
