@@ -21,6 +21,11 @@
                     <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                         {{ __('Profiel') }}
                     </x-nav-link>
+                    @if (Auth::user()->isPlanner())
+                        <x-nav-link :href="route('planner.festivals.index')" :active="request()->routeIs('planner.*')">
+                            {{ __('Planner') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -82,6 +87,11 @@
             <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                 {{ __('Profiel') }}
             </x-responsive-nav-link>
+            @if (Auth::user()->isPlanner())
+                <x-responsive-nav-link :href="route('planner.festivals.index')" :active="request()->routeIs('planner.*')">
+                    {{ __('Planner') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

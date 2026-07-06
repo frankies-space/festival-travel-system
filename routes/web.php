@@ -25,6 +25,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/points/redeem-discount', [PointsController::class, 'redeemDiscount'])->name('points.redeem-discount');
     Route::post('/points/redeem-vip', [PointsController::class, 'redeemVip'])->name('points.redeem-vip');
+
+    Route::middleware('planner')->prefix('planner')->name('planner.')->group(function () {
+        Route::resource('festivals', \App\Http\Controllers\Planner\FestivalController::class);
+    });
 });
 
 require __DIR__.'/auth.php';

@@ -18,7 +18,7 @@
                             @else
                                 <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-indigo-600">Inloggen</a>
                                 @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">Registreren</a>
+                                    <a href="{{ route('register') }}" class="text-sm font-medium text-indigo-600 ring-1 ring-indigo-600 hover:bg-indigo-50 px-4 py-2 rounded-md">Registreren</a>
                                 @endif
                             @endauth
                         </nav>
@@ -35,12 +35,14 @@
                         <p class="mt-6 text-lg text-gray-600">
                             Boek busreizen naar festivals door heel Europa. Verdien punten bij elke reis en wissel ze in voor korting of VIP-toegang.
                         </p>
-                        <div class="mt-10 flex gap-4">
+                        <div class="mt-10 flex flex-wrap gap-4">
                             @guest
-                                <a href="{{ route('register') }}" class="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
-                                    Account aanmaken
-                                </a>
-                                <a href="{{ route('login') }}" class="rounded-md bg-white px-5 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}" class="rounded-md px-5 py-3 text-sm font-semibold text-indigo-600 bg-white shadow-sm ring-2 ring-indigo-600 hover:bg-indigo-50">
+                                        Account aanmaken
+                                    </a>
+                                @endif
+                                <a href="{{ route('login') }}" class="rounded-md px-5 py-3 text-sm font-semibold text-gray-900 bg-white shadow-sm ring-1 ring-gray-300 hover:bg-gray-50">
                                     Inloggen
                                 </a>
                             @else

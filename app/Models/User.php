@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'phone', 'password', 'points_balance', 'available_discount', 'vip_until'])]
+#[Fillable(['name', 'email', 'phone', 'password', 'points_balance', 'available_discount', 'vip_until', 'role'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -68,5 +68,10 @@ class User extends Authenticatable
         }
 
         return $this->points_balance >= config('fts.vip_redeem_cost');
+    }
+
+    public function isPlanner(): bool
+    {
+        return $this->role === 'planner';
     }
 }

@@ -22,6 +22,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
+        User::factory()->create([
+            'name' => 'Planner',
+            'email' => 'planner@fts.nl',
+            'role' => 'planner',
+        ]);
+
         $this->call(FestivalSeeder::class);
     }
 }
